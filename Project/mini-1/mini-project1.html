@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko" data-bs-theme="dark">
+<head>
+    <title>Admin Page</title>
+    <link href="style.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+</head>
+<body>
+    <header class="container" style="text-align: right;">
+        
+        <div class="container">
+            
+            <fieldset class="switch-dark">
+                <label class="mode-change-label">
+                </label>
+            </fieldset>
+        </div>
+        <div class="container">
+            <a class="btn btn-join" href="#" target="_self">로그인</a> 
+            <a class="btn btn-join" href="mini-project1-join.html" target="_blank">회원가입</a>
+        </div>
+    </header>
+    <div class="container cot-3" style="clear: both;">
+        <h3 class="mt-5 mb-3">신규 등록 상품</h3>
+        <form class="row row-cols-lg-auto g-3 align-items-center">      
+            <div class="col-12">
+              <label class="visually-hidden" for="inlineFormSelectPref">Preference</label>
+              <select class="form-select" id="inlineFormSelectPref">
+                <option selected value="0">카테고리</option>
+                <option value="top">상의</option>
+                <option value="bottom">하의</option>
+                <option value="shoes">신발</option>
+                <option value="accesary">패션잡화</option>
+                <!-- 카테고리 셀렉트 코드를 넣어주세요-->
+              </select>
+            </div>
+            <div class="col-3">
+                <input class="form-control" type="text" placeholder="제품명을 입력해주세요.">
+
+                <!-- input 입력창 코드를 넣어주세요 -->
+            </div>
+            <div class="col-auto">
+                <input class="btn btn-primary" type="button" value="검색">
+
+            <!-- 조회버튼 코드를 넣어주세요 -->
+            </div>
+
+            <div class="col-auto">
+                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+                    <label class="btn btn-outline-secondary" for="btnradio1">남성</label>
+                  
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                    <label class="btn btn-outline-secondary" for="btnradio2">여성</label>
+             
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" checked>
+                    <label class="btn btn-outline-secondary" for="btnradio3">공용</label>
+             
+                  </div>
+            </div>
+        </form>
+            <div class="container mt-3">
+                <table class="table table-sm">
+                    <thead> 
+                        <tr>
+                            <th>
+                                카테고리
+                            </th>
+                            <th>
+                                브랜드
+                            </th>
+                            <th>
+                                상품명
+                            </th>
+                            <th>
+                                가격
+                            </th>
+                            <th>
+                                성별
+                            </th>
+                        </tr>
+                    
+                        <!-- 열의 속성값을 나타내는 코드를 작성해주세요 (예 : 카테고리, 브랜드, 상품명, 가격) -->
+                    </thead>
+                    <tbody id="data-table">
+                        <!-- 추후 크롤링한 데이터가 들어가는 자리 -->
+                    </tbody>
+                </table>
+            </div>
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center" id="paging-ul">
+          <li class="page-item">
+            <a class="page-link" id="btn-prev" href="#" onclick="pagingPrev()" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+
+        </ul>
+    </nav>
+    <!-- 페이지 네이션 코드를 넣어주세요 -->
+
+    <div class="fixed-bottom container" id="clock" style="text-align: right;">
+        
+    </div>
+    <!-- 실시간 날짜, 시간 추가 
+     1. fixed bottom 클래스 사용해 스크롤시에도 항상 아래에 고정되도록 함.
+     2. Date 함수로 날짜, 시간 데이터를 받아와 보기 쉽게 데이터 형을 포맷
+    -->
+    
+
+   <script>
+
+      // 크롤링한 데이터를 아래와 같은 형태의 객체 배열로 가정합니다.
+      // 추후 데이터베이스에 있는 데이터를 쿼리문으로 불러 올 수 있게 쿼리르 작성해 볼 수 있음
+      const data = [
+          { category: "상의", brand: 'Supreme', product: '슈프림 박스로고 후드티', price: '390,000', gender:'남'},
+          { category: "하의", brand: 'DIESEL', product: '디젤 트랙 팬츠', price: '188,000', gender:'남'},
+          { category: "신발", brand: 'Nike', product: '에어포스 1', price: '137,000', gender:'여'},
+          { category: "패션잡화", brand: 'Music&Goods', product: '빵빵이 키링', price: '29,000', gender:'여' },
+          { category: "상의", brand: 'Adidas', product: '로고 반팔티', price: '45,000', gender:'공용' },
+          { category: "하의", brand: 'UMBRO', product: '7부 팬츠', price: '60,000', gender:'공용' },
+          { category: "패션잡화", brand: 'Music&Goods', product: '빵빵이 키링', price: '29,000', gender:'여' },
+          { category: "상의", brand: 'Adidas', product: '로고 반팔티', price: '45,000', gender:'공용' },
+          { category: "하의", brand: 'UMBRO', product: '7부 팬츠', price: '60,000', gender:'공용' },
+          { category: "패션잡화", brand: 'Music&Goods', product: '빵빵이 키링', price: '29,000', gender:'여' },
+          { category: "상의", brand: 'Adidas', product: '로고 반팔티', price: '45,000', gender:'공용' },
+          { category: "하의", brand: 'UMBRO', product: '7부 팬츠', price: '60,000', gender:'공용' },
+          { category: "패션잡화", brand: 'Music&Goods', product: '빵빵이 키링', price: '29,000', gender:'여' },
+          { category: "상의", brand: 'Adidas', product: '로고 반팔티', price: '45,000', gender:'공용' },
+          { category: "하의", brand: 'UMBRO', product: '7부 팬츠', price: '60,000', gender:'공용' },
+          { category: "패션잡화", brand: 'Music&Goods', product: '빵빵이 키링', price: '29,000', gender:'여' },
+          { category: "상의", brand: 'Adidas', product: '로고 반팔티', price: '45,000', gender:'공용' },
+          { category: "하의", brand: 'UMBRO', product: '7부 팬츠', price: '60,000', gender:'공용' },
+          { category: "패션잡화", brand: 'Music&Goods', product: '빵빵이 키링', price: '29,000', gender:'여' },
+          { category: "상의", brand: 'Adidas', product: '로고 반팔티', price: '45,000', gender:'공용' },
+          { category: "하의", brand: 'UMBRO', product: '7부 팬츠', price: '60,000', gender:'공용' },
+          { category: "패션잡화", brand: 'Music&Goods', product: '빵빵이 키링', price: '29,000', gender:'여' },
+          { category: "상의", brand: 'Adidas', product: '로고 반팔티', price: '45,000', gender:'공용' },
+          { category: "하의", brand: 'UMBRO', product: '7부 팬츠', price: '60,000', gender:'공용' },
+          { category: "패션잡화", brand: 'Music&Goods', product: '빵빵이 키링', price: '29,000', gender:'여' },
+          { category: "상의", brand: 'Adidas', product: '로고 반팔티', price: '45,000', gender:'공용' },
+          { category: "하의", brand: 'UMBRO', product: '7부 팬츠', price: '60,000', gender:'공용' },
+          { category: "패션잡화", brand: 'Music&Goods', product: '빵빵이 키링', price: '29,000', gender:'여' },
+          { category: "상의", brand: 'Adidas', product: '로고 반팔티', price: '45,000', gender:'공용' },
+          { category: "하의", brand: 'UMBRO', product: '7부 팬츠', price: '60,000', gender:'공용' },
+          { category: "패션잡화", brand: 'Music&Goods', product: '빵빵이 키링', price: '29,000', gender:'여' },
+          { category: "상의", brand: 'Adidas', product: '로고 반팔티', price: '45,000', gender:'공용' },
+          { category: "하의", brand: 'UMBRO', product: '7부 팬츠', price: '60,000', gender:'공용' },
+          { category: "패션잡화", brand: 'Music&Goods', product: '빵빵이 키링', price: '29,000', gender:'여' },
+          { category: "상의", brand: 'Adidas', product: '로고 반팔티', price: '45,000', gender:'공용' },
+          { category: "하의", brand: 'UMBRO', product: '7부 팬츠', price: '60,000', gender:'공용' },
+          { category: "패션잡화", brand: 'Music&Goods', product: '빵빵이 키링', price: '29,000', gender:'여' },
+          { category: "상의", brand: 'Adidas', product: '로고 반팔티', price: '45,000', gender:'공용' },
+          { category: "하의", brand: 'UMBRO', product: '7부 팬츠', price: '60,000', gender:'공용' },
+          { category: "패션잡화", brand: 'Music&Goods', product: '빵빵이 키링', price: '29,000', gender:'여' },
+          { category: "상의", brand: 'Adidas', product: '로고 반팔티', price: '45,000', gender:'공용' },
+          { category: "하의", brand: 'UMBRO', product: '7부 팬츠', price: '60,000', gender:'공용' }
+          // ...
+      ];
+      
+      const dataTable = document.getElementById('data-table');
+      /*
+      data.forEach((item) => {
+          const row = dataTable.insertRow();
+          row.insertCell(0).innerHTML = item.category;
+          row.insertCell(1).innerHTML = item.brand;
+          row.insertCell(2).innerHTML = item.product;
+          row.insertCell(3).innerHTML = item.price;
+          row.insertCell(4).innerHTML = item.gender;
+      });
+*/
+      var Target = document.getElementById("clock");
+        function clock() {
+            var time = new Date();
+
+            var month = time.getMonth();
+            var date = time.getDate();
+            var day = time.getDay();
+            var week = ['일', '월', '화', '수', '목', '금', '토'];
+
+            var hours = time.getHours();
+            var minutes = time.getMinutes();
+            var seconds = time.getSeconds();
+
+            Target.innerText = 
+            `${month + 1}월 ${date}일 ${week[day]}요일 ` +
+            `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+                
+        }
+        clock();
+        setInterval(clock, 1000); // 1초마다 실행
+
+
+        darkMode();
+
+        function darkMode(){
+  
+        // 현재 모드를 가져옴
+       
+        let mode = $("html").attr("data-bs-theme");
+        
+        console.log(mode);
+
+            // 현재 모드와 반대되는 모드로 설정
+            if( mode == 'dark'){
+                $('html').attr("data-bs-theme", "light");
+                $('.mode-change-label').html('<i class="bi bi-brightness-high" style="font-size:1.5rem; margin-right:10px"></i>'+'<input onclick="darkMode()" role="switch" type="checkbox" class="mode-change-btn"/>');
+            }else{
+                $('html').attr("data-bs-theme", "dark");
+                $('.mode-change-label').html('<i class="bi bi-moon-fill" style="font-size:1.5rem; margin-right:10px"></i>'+'<input onclick="darkMode()" role="switch" type="checkbox" class="mode-change-btn"/>');
+            }            
+        }
+
+        let totalPage = Math.ceil(data.length/5)
+
+        console.log('총 페이지 수 :'+ totalPage);
+
+        const currentPage = 1;
+        let pageCount = 5;
+
+        if(totalPage < 5) {
+            pageCount = totalPage;
+        }
+        
+        let pageGroup = Math.ceil(currentPage / pageCount)
+
+        let lastNumber = pageGroup * pageCount
+        if(lastNumber > totalPage) {
+            lastNumber = totalPage
+        }
+        let firstNumber = lastNumber - (pageCount -1)
+
+        const next = lastNumber + 1
+        const prev = firstNumber -1
+
+        for(let i = firstNumber; i <= lastNumber; i++) {
+            
+            $("#paging-ul").append(`<li class="page-item"><a class="page-link" id="p_${i}" onclick='paging(${i})' href="#">${i}</a></li>`)
+        }
+
+        $("#paging-ul").append(`<li class="page-item"><a class="page-link" href="#" onclick="paingNext" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>`)
+
+
+      
+        function pagingPrev() {
+            
+        }
+
+        function pagingNext() {
+
+        }
+
+
+        
+        paging(1)   //첫 화면 1페이지로 조회로 시작
+
+        function paging(pageNo)  {
+
+            $('#data-table').eq(0).empty(); //기존 페이징 rows 초기화
+
+            console.log("페이징 실행!" + pageNo +"페이지")
+
+            for(i = pageNo; i < pageNo + 5; i++) {
+                console.log("반복 횟수" + i)
+                const row = dataTable.insertRow();
+                row.insertCell(0).innerHTML = data[i].category;
+                row.insertCell(1).innerHTML = data[i].brand;
+                row.insertCell(2).innerHTML = data[i].product;
+                row.insertCell(3).innerHTML = data[i].price;
+                row.insertCell(4).innerHTML = data[i].gender;
+            }
+        }
+            
+          
+
+       
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>

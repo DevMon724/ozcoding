@@ -1,0 +1,52 @@
+*{
+    text-align: center;
+
+}
+
+html{
+    background-color: bisque;
+    font-size: 16px;
+}
+
+body{
+    width: 640px;
+    margin:auto; /*너비에서 남는 여백을 동일하게 분배해서 가운데 정렬 효과가 있음*/
+   
+}
+
+
+
+img{
+    width: 300px;
+    height: 200px;
+    border-radius: 100px;
+}
+p{
+    font-size: 1.5rem;
+}
+
+/* add style */
+
+.sec-font{
+    font-family: "Nanum Pen Script", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+h1{
+    font-size: 3.5rem;
+}
+
+#fun_facts > h2{
+    font-size: 3.5rem;
+}
+
+#fun_facts > p{
+    text-align: left;
+    line-height: 40px;
+    padding-left: 30px;
+}
+
+.col1 {
+    color: rgba(132, 90, 7, 0.8);
+}

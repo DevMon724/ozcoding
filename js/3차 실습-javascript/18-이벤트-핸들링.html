@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>조건문 만들기</title>
+    
+</head>
+<body>
+
+    <button id="span">SPAN</button>
+    <button id="strong">STRONG</button>
+    <button id="mark">MARK</button>
+
+    <hr>
+
+    <script>
+        const spanBtn = document.getElementById("span")
+        const strBtn = document.getElementById("strong")
+        const markBtn = document.getElementById("mark")
+        
+        /*
+        spanBtn.onclick = function() {
+            const span = document.createElement("span")
+            span.textContent = "새로 생긴 span 태그입니다"
+            document.body.append(span)
+        }
+
+          spanBtn.addEventListener("click", function() {
+            const span = document.createElement("span")
+            span.textContent = "새로 생긴 span 태그입니다"
+            document.body.append(span)
+        })
+
+        */
+
+        const handleClick = function(event) {
+            if(event.target.id == "span") {
+            const span = document.createElement("span")
+            span.textContent = "span 태그입니다."
+            document.body.append(span)
+            }else if(event.target.id == "strong"){
+                const strong = document.createElement("strong")
+                strong.textContent = "strong 태그입니다."
+            }else if(event.target.id == "mark"){
+                const mark = document.createElement("mark")
+                strong.textContent = "mark 태그입니다."
+            }else {
+                
+            }
+        }
+
+        spanBtn.addEventListener("click", handleClick)
+        strBtn.addEventListener("click", handleClick)
+        markBtn.addEventListener("click", handleClick)
+
+
+      
+
+
+    </script>
+</body>
+</html>

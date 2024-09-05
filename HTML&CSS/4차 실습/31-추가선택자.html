@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Document</title>
+    <style>
+        /*
+        기호와 함께 사용하는 속성 선택자
+        * : 값의 포함 여부
+        ^ : 값의 시작 여부
+        $ : 값의 끝 여부
+        */
+›        [width *= "2"] {
+            border: 5px dashed red;
+        }
+
+        body em{
+            color: blue;
+        }
+
+        p > em{
+            color: aquamarine;
+        }
+        /* 자식 선택자는 한 단계 아래에 있을때만 선택됨. */
+
+        #sam + p{
+            /* 인접 형제 선택자 내 바로 뒤에 누구*/
+            color: orange;
+        }
+
+        #sam ~ p{
+            /*내 모든 형제 p*/
+            color: beige;
+        }
+    </style>
+</head>
+<body>
+    <img src="images/puppy-mary.jpg" width="120" alt="강아지">
+    <img src="images/puppy-mary.jpg" width="120">
+    <img src="images/puppy-mary.jpg" width="120" id="sam">
+    <p>마리는 우리집의 강아지이자, 현 거주견이기도 합니다.</p>
+    <p>마리는 많이 먹고 많이 잡니다.</p>
+    <p>마리는 <em>또롱이라는</em> 예쁜 딸이 있습니다.</p>
+    <p>그러나 지금은 딸과 떨어져서 지내고 있습니다.</p>
+</body>
+</html>

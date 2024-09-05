@@ -1,0 +1,159 @@
+/*전체 세팅*/
+
+*{
+    box-sizing: border-box;
+}
+
+html{
+    height: 100%;
+}
+body{
+    height: 100%;
+    margin: 0px;
+}
+
+.container{
+    height: 100%;
+    background-color: rgb(132, 255, 74);
+}
+
+/*스크린 크기 조정*/
+
+.chat-screen{
+    height: calc(100% - 120px);
+}
+
+/* 유저 정보 표시되는 부분 */
+
+.user {
+    background-color: #ffffff;
+    padding: 16px;
+    height: 80px;
+}
+
+.user-column{
+    float: left;
+}
+
+.user-pic { 
+    width: 60px;
+    height: 60px;
+    margin-right: 10px;
+    border-radius: 10px;
+    background-image: url(images/mary-face.png);
+    background-size: cover;
+}
+
+.user-nick, .user-count {
+    margin: 5px;
+}
+
+.user-count{
+    font-size: 12px;
+    color: gray;
+}
+
+
+/* 채팅 입력 창 */
+
+.chat-form{
+    height: 120px;
+    background-color: #ffffff;
+}
+
+.chat-form-field{
+    height: 120px;
+}
+
+.chat-form-msg {
+    float: left;
+    width: calc(100%-120px);
+    height: 120px;
+    border: none;
+    resize: none;
+    font-size: 24px;
+    padding: 10px;
+}
+
+.chat-form-bt{
+    float: right; 
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+    background-color: #2aecd6;
+    font-size: 18px;
+}
+
+.chat-form-msg:focus{
+    outline: none;
+}
+
+.chat-form-bt:active{
+    background-color: #035c20;
+}
+
+.chat-screen{
+    justify-content: space-between;
+}
+
+.msg-mary {
+    display: grid;
+    align-items: center;
+    font-size: 1.5rem;
+    vertical-align: middle;
+    margin: 30px;
+    position: relative;
+    width: fit-content;
+    height: 80px;
+    padding: 15px;
+    background: #FFFFFF;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    clear: both;
+}
+
+.msg-mary:after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 15px 15px 15px 0;
+    border-color: transparent #FFFFFF;
+    display: block;
+    width: 0;
+    left: -15px;
+    clear: both;
+}
+
+.msg-me{
+    float: right;
+    display: grid;
+    align-items: center;
+    font-size: 1.5rem;
+    vertical-align: middle;
+    margin-right: 30px;
+    margin-bottom: 30px;
+    position: relative;
+    width: fit-content;
+    height: 80px;
+    padding: 15px;
+    background: #FFFFFF;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    clear: both;
+}
+
+.msg-me:after{
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 15px 0 15px 15px;
+    border-color: transparent #FFFFFF;
+    display: block;
+    width: 0;
+    z-index: 1;
+    right: -15px;
+    clear: both;
+  
+}

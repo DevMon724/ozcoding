@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>채팅방 만들기</title>
+        <link href="chat.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+            <main class="chat-screen">
+                <section class="chat-screen-bar">
+                    <div class="user">
+                        <div class="user-column">
+                            <div class="user-pic"></div>
+                        </div>
+                        <div class="user-column">
+                            <p class="user-nick">마리</p>
+                            <p class="user-count">1</p>
+                        </div>
+                    </div>
+                </section>
+                <section class="chat-screen">
+                    <div class="msg-mary">야.</div>
+                    <div class="msg-me">왜?</div>
+                    <div class="msg-mary">밥 안주냐?</div>
+                    <div class="msg-me">...</div>
+                </section>
+            </main>
+            
+            <form class="chat-form">
+                <section class="chat-form-field">
+                    <textarea class="chat-form-msg"></textarea>
+                    <input type="submit" value="전송" class="chat-form-bt">
+                </section>
+            </form>
+        </div>
+    </body>
+</html>
