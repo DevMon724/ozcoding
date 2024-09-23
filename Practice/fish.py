@@ -1,0 +1,74 @@
+# 붕어빵 재고 데이터 생성
+stock = {
+    "팥붕어빵" : 10, 
+    "슈크림붕어빵" : 8, 
+    "초코붕어빵" : 5
+}
+
+prices = {
+    "팥붕어빵" : 1000,
+    "슈크림붕어빵" : 1200,
+    "초코붕어빵" : 1500
+}
+
+sales = {
+    "팥붕어빵" : 0,
+    "슈크림붕어빵" : 0,
+    "초코붕어빵" : 0
+}
+
+#1.한번에 맛과 개수를 받는거
+#2.map함수를 이용해 bread_count 코드를 개선해보세요.
+
+while True : 
+    mode = input("원하는 모드를 선택해주세요(주문, 관리자, 종료)")
+
+    if mode == "종료" :
+
+
+        break
+
+    if mode == "주문" :
+        while True : 
+
+            order = {}
+            bread_type = input("주문할 붕어빵 종류를 입력하세요 (1.팥, 2.슈크림, 3.초코) 종료를 원할 경우 '종료'를 입력해주세요.")
+            if bread_type == '종료' :
+                break
+            bread_count = int(input("주문할 수량을 입력하세요."))
+
+            order[bread_type] = bread_count # order["팥붕어빵"] = 10
+            print(f"주문내역 : {order}")
+            print('-----------------------------------------')
+
+            if stock[bread_type] >= bread_count :
+                stock[bread_type] -= bread_count
+                sales[bread_type] += bread_count
+                print(f'{bread_type} {bread_count}개를 판매하였습니다.')
+            else :
+                result = bread_count - stock[bread_type]
+                print(f'죄송합니다. {bread_type}재고가 {result}개 부족합니다.')
+
+            print('-----------------------------------------')
+            
+            # 함수 len(stock) 메서드 stock.item()
+            """
+            for bread, quantity in stock.items : #items를 이용하면 한 번에 키와 밸류를 출력 가능
+                print(f'{bread} : {quantity}')
+            """
+
+    if mode == "관리자" :
+        while True :
+            
+            bread_type = input("추가할 붕어빵 종류를 입력하세요 (1.팥, 2.슈크림, 3.초코) 종료를 원할 경우 '종료'를 입력해주세요.")
+            if bread_type == '종료' :
+                break
+            bread_count = int(input("추가할 수량을 입력하세요."))
+            stock[bread_type] += bread_count
+
+print("영업을 종료합니다.")
+
+total_sales = sum(sales[bread] * prices[bread] for bread in sales)
+print(f'총 매출은 {total_sales}원 입니다.')
+
+
