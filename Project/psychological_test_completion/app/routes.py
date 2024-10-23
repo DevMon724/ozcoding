@@ -44,19 +44,17 @@ def add_participant():
         {"redirect": url_for("main.quiz"), "participant_id": new_participant.id}
     )
 
+
 @main.route("/quiz")
 def quiz():
     # 퀴즈 페이지를 렌더링합니다. 참여자 ID 쿠키가 필요합니다.
     participant_id = request.cookies.get("participant_id")
-    print(participant_id) #참여자 ID 잘 받아왔는지 확인. (+)
     if not participant_id:
         # 참여자 ID가 없으면, 홈페이지로 리다이렉션합니다.
         return redirect(url_for("main.home"))
 
     questions = Question.query.all()
-    print(questions)
     questions_list = [question.content for question in questions]
-    print(questions_list) #퀴즈 리스트 데이터가 비어 있다. (+)
     return render_template("quiz.html", questions=questions_list)
 
 

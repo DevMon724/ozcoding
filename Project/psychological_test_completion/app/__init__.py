@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 
 def create_app():
     app = Flask(__name__)
-    app.secret_key = "oz_coding_secret"
+    app.secret_key = "oz_coding_secret" 
 
     # 데이터베이스 파일 경로 설정 및 앱 설정
     basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
@@ -44,7 +44,7 @@ def create_app():
         # 관리자 계정 추가 로직, 비밀번호 해시 처리 적용
         existing_admin = Admin.query.filter_by(username="admin").first()
         if not existing_admin:
-            hashed_password = generate_password_hash("0000")  # 비밀번호를 해시 처리
+            hashed_password = 0000  # 비밀번호를 해시 처리
             new_admin = Admin(username="admin", password=hashed_password)
             db.session.add(new_admin)
 
