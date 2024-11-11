@@ -17,7 +17,7 @@ user_blp = Blueprint("Users", "users", description="Operations on users", url_pr
 # (2) 유저 생성 (POST)
 @user_blp.route('/')
 class UserList(MethodView):
-    @user_blp.response(200, UserSchema(mary=True)) #스키마를 통해 데이터를 한 번 더 검증해줄 수 있다. 클라이언트와 서버 간 데이터 포맷을 정의하고 관리한다.
+    @user_blp.response(200, UserSchema(many=True)) #스키마를 통해 데이터를 한 번 더 검증해줄 수 있다. 클라이언트와 서버 간 데이터 포맷을 정의하고 관리한다.
     def get(self):
         users = User.query.all()
         user_data = [{
