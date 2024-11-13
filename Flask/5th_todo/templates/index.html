@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo App with Authentication</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    #todo-list { list-style-type: none; padding: 0; }
+    #todo-list li { padding: 10px; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; }
+    .completed { text-decoration: line-through; }
+    #login-form, #todo-section { display: none; }
+  </style>
+</head>
+<body>
+
+  <h1>Todo App</h1>
+  
+  <!-- Login Form -->
+  <section id="login-form">
+    <h2>Login</h2>
+    <form id="auth-form">
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+    <p id="login-msg" style="color: red;"></p>
+  </section>
+
+  <!-- Todo Form and List Section -->
+  <section id="todo-section">
+    <form id="todo-form">
+      <input type="text" id="title" placeholder="New Todo" required>
+      <button type="submit">Add Todo</button>
+    </form>
+    <ul id="todo-list"></ul>
+    <button onclick="logout()">Logout</button>
+  </section>
+
+  <script>
+    const API_URL = 'http://localhost:5000';
+    
+    // Show login form if no token is found
+    document.addEventListener('DOMContentLoaded', () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        document.getElementById('todo-section').style.display = 'block';
+        fetchTodos();
+      } else {
+        document.getElementById('login-form').style.display = 'block';
+      }
+    });
+
+    // Login function
+    document.getElementById('auth-form').addEventListener('submit', async event => {
+      event.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const response = await fetch(`${API_URL}/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await response.json();
+      if (response.ok) {
+        localStorage.setItem('token', data.access_token);
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('todo-section').style.display = 'block';
+        fetchTodos();
+      } else {
+        document.getElementById('login-msg').textContent = data.msg;
+      }
+    });
+
+    // Logout function
+    function logout() {
+      localStorage.removeItem('token');
+      document.getElementById('todo-section').style.display = 'none';
+      document.getElementById('login-form').style.display = 'block';
+    }
+
+    // Fetch todos
+    async function fetchTodos() {
+      const response = await fetch(`${API_URL}/todo`, {
+        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+      });
+      const todos = await response.json();
+      const todoList = document.getElementById('todo-list');
+      todoList.innerHTML = '';
+      todos.forEach(todo => {
+        const li = document.createElement('li');
+        li.className = todo.completed ? 'completed' : '';
+        li.innerHTML = `
+          <span>${todo.title}</span>
+          <div>
+            <button onclick="updateTodo(${todo.id}, '${todo.title}', ${!todo.completed})">
+              ${todo.completed ? 'Undo' : 'Complete'}
+            </button>
+            <button onclick="deleteTodo(${todo.id})">Delete</button>
+          </div>
+        `;
+        todoList.appendChild(li);
+      });
+    }
+
+    // Add a new todo
+    document.getElementById('todo-form').addEventListener('submit', async event => {
+      event.preventDefault();
+      const title = document.getElementById('title').value;
+      const response = await fetch(`${API_URL}/todo`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token')
+        },
+        body: JSON.stringify({ title })
+      });
+      if (response.ok) {
+        document.getElementById('title').value = '';
+        fetchTodos();
+      }
+    });
+
+    // Update a todo's completion status
+    async function updateTodo(id, title, completed) {
+      const response = await fetch(`${API_URL}/todo/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token')
+        },
+        body: JSON.stringify({ title, completed })
+      });
+      if (response.ok) fetchTodos();
+    }
+
+    // Delete a todo
+    async function deleteTodo(id) {
+      const response = await fetch(`${API_URL}/todo/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+      });
+      if (response.ok) fetchTodos();
+    }
+  </script>
+
+</body>
+</html>
