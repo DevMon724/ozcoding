@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <script>
+        // Fetch and display all users
+        async function fetchUsers() {
+            const response = await fetch('/users');
+            const data = await response.json();
+            document.getElementById('users').innerText = JSON.stringify(data.users, null, 2);
+        }
+
+        // Add a new user
+        async function addUser() {
+            const username = document.getElementById('newUser').value;
+            const response = await fetch('/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username })
+            });
+            const data = await response.json();
+            alert(data.message || 'User added');
+            fetchUsers();
+        }
+
+        // Add a new post to a user
+        async function addPost() {
+            const username = document.getElementById('postUsername').value;
+            const title = document.getElementById('postTitle').value;
+            const response = await fetch(`/users/post/${username}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title })
+            });
+            const data = await response.json();
+            alert(data.message || 'Post added');
+            fetchPosts(username);
+        }
+
+        // Get all posts of a user
+        async function fetchPosts(username) {
+            const response = await fetch(`/users/post/${username}`);
+            const data = await response.json();
+            document.getElementById('posts').innerText = JSON.stringify(data.posts, null, 2);
+        }
+
+        // Like a post of a user
+        async function likePost() {
+            const username = document.getElementById('likeUsername').value;
+            const title = document.getElementById('likeTitle').value;
+
+            const response = await fetch(`/users/post/like/${username}/${title}`, {
+                method: 'PUT'
+            });
+            const data = await response.json();
+            alert(data.message || 'Post liked');
+            fetchPosts(username);
+        }
+
+        // Delete a user
+        async function deleteUser() {
+            const username = document.getElementById('deleteUser').value;
+
+            const response = await fetch(`/users/${username}`, {
+                method: 'DELETE'
+            });
+            const data = await response.json();
+            alert(data.message || 'User deleted');
+            fetchUsers();
+        }
+    </script>
+</head>
+<body>
+    <h1>User Management</h1>
+
+    <!-- Display all users -->
+    <h2>All Users</h2>
+    <button onclick="fetchUsers()">Fetch Users</button>
+    <pre id="users"></pre>
+
+    <!-- Add a new user -->
+    <h2>Add User</h2>
+    <input type="text" id="newUser" placeholder="Username">
+    <button onclick="addUser()">Add User</button>
+
+    <!-- Add a post to a user -->
+    <h2>Add Post to User</h2>
+    <input type="text" id="postUsername" placeholder="Username">
+    <input type="text" id="postTitle" placeholder="Post Title">
+    <button onclick="addPost()">Add Post</button>
+
+    <!-- Display user's posts -->
+    <h2>View User's Posts</h2>
+    <input type="text" id="fetchPostsUsername" placeholder="Username">
+    <button onclick="fetchPosts(document.getElementById('fetchPostsUsername').value)">Fetch Posts</button>
+    <pre id="posts"></pre>
+
+    <!-- Like a post -->
+    <h2>Like a Post</h2>
+    <input type="text" id="likeUsername" placeholder="Username">
+    <input type="text" id="likeTitle" placeholder="Post Title">
+    <button onclick="likePost()">Like Post</button>
+
+    <!-- Delete a user -->
+    <h2>Delete User</h2>
+    <input type="text" id="deleteUser" placeholder="Username">
+    <button onclick="deleteUser()">Delete User</button>
+</body>
+</html>
